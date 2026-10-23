@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Das wilde Rudel</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://api.github.com; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<style>
+:root{--bg:#fff7e8;--card:#fff;--ink:#2b2340;--mut:#6d6585;--a:#ff5d8f;--b:#ffb703;--c:#2ec4b6;--line:#ecdff5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1830;--card:#2a2445;--ink:#f6f0ff;--mut:#b8aed6;--line:#3d3560}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+.wrap{max-width:660px;margin:0 auto;padding:16px}
+h1{font-size:clamp(28px,8vw,42px);margin:4px 0 0;text-align:center;letter-spacing:-1px;background:linear-gradient(90deg,var(--a),var(--b),var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub,.mut{color:var(--mut)}.sub{text-align:center;margin:2px 0 12px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:14px;margin-bottom:12px;box-shadow:0 5px 0 var(--line)}
+.hero{display:flex;gap:14px;align-items:center}
+.pw{position:relative;min-width:90px;text-align:center}#pet{animation:bob 1.6s ease-in-out infinite;cursor:pointer;user-select:none;line-height:1}
+.hat{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:28px}
+@keyframes bob{50%{transform:translateY(-6px) rotate(4deg)}}
+.bar{height:14px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0}
+.bar div{height:100%;background:linear-gradient(90deg,var(--c),var(--b));border-radius:99px;transition:width .6s}
+.stats{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}.stats b{color:var(--ink)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.chip,select,input{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 13px;font:inherit;font-size:14px}
+.chip{cursor:pointer}.chip.on{background:var(--c);border-color:var(--c);color:#fff;font-weight:bold}
+input{width:130px;border-radius:14px}
+.big{width:100%;border:0;border-radius:16px;padding:15px;margin-top:8px;font:inherit;font-size:19px;font-weight:bold;color:#fff;background:var(--a);box-shadow:0 5px 0 #c23468;cursor:pointer}
+.big.go{background:var(--c);box-shadow:0 5px 0 #1f8e83}.big:active{transform:translateY(3px)}
+.tabs{display:flex;gap:6px;margin:10px 0}.tab{flex:1;padding:10px 2px;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;font:inherit;font-size:13px;cursor:pointer}
+.tab.on{background:var(--a);border-color:var(--a);color:#fff;font-weight:bold}
+.em{font-size:64px;display:block;text-align:center}h2,h3{margin:6px 0;text-align:center}
+#mis{text-align:center}#clock{font-size:56px;font-weight:bold;color:var(--a);font-variant-numeric:tabular-nums;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.item{border:3px solid;border-radius:16px;padding:8px;text-align:center;background:var(--card);font-size:12px}.item .em{font-size:40px}
+.row{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+#ov{position:fixed;inset:0;background:rgba(20,10,40,.82);display:none;align-items:center;justify-content:center;z-index:20;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 16px}
+#oc{background:var(--card);border-radius:24px;padding:18px;max-width:440px;width:100%;max-height:90vh;overflow:auto;text-align:center}
+.p{position:fixed;top:-30px;font-size:28px;pointer-events:none;animation:fall 2s linear forwards;z-index:30}@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;display:none;z-index:40;text-align:center}
+.wrap{padding-bottom:110px}
+#nav{position:fixed;left:0;right:0;bottom:0;display:flex;gap:4px;background:var(--card);border-top:2px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:15}
+#nav button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-size:12px;padding:5px 0;cursor:pointer;border-radius:12px}
+#nav button span{display:block;font-size:24px}#nav button.on{color:var(--a);font-weight:bold;background:var(--line)}
+.vs{display:flex;align-items:center;justify-content:space-around;text-align:center;font-size:15px;margin:8px 0}.vs span{font-size:26px;font-weight:bold;color:var(--a)}.vs div{font-size:30px}
+.boss{display:flex;gap:10px;align-items:center}.boss .e{font-size:42px}.boss p{margin:2px 0;font-size:13px}
+.boss .big{width:auto;padding:10px 14px;font-size:15px;margin:0}
+.toast{bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Das wilde Rudel</h1>
+<div id="inbox"></div>
+<div class="card hero" id="hero"></div>
+<div id="view"></div>
+</div>
+<nav id="nav"></nav>
+<div id="ov"><div id="oc"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+var $=function(i){return document.getElementById(i)};
+var CAT={K:"💪 Kraft",A:"🏃 Ausdauer",C:"🎯 Core",B:"🧘 Balance",T:"🎈 Spaß"};
+var VL={m:"📱 Sensor-Check: Handy in die Tasche oder an den Arm",p:"🔔 Ping-Check: Handy in Reichweite, bei Signal tippen"};
+var M=("💪|Kniebeugen|Füße schulterbreit, Rücken gerade, Knie nach außen, bis die Oberschenkel waagerecht sind.|60|K|2|m#🦵|Ausfallschritte|Großer Schritt vor, hinteres Knie fast zum Boden, Oberkörper aufrecht, im Wechsel.|60|K|2|m#🏋️|Liegestütze|Körper als gerade Linie, Brust fast zum Boden. Notfalls auf den Knien.|45|K|2|m#🪑|Trizeps-Dips|Hände am Stuhlrand, Po davor, Ellbogen beugen und strecken.|45|K|2|m#🧱|Wandsitzen|Rücken an die Wand, Knie 90 Grad, Oberschenkel waagerecht. Durchhalten!|45|K|2|p#🍑|Glute Bridge|Rückenlage, Füße aufgestellt, Hüfte heben, oben zwei Sekunden anspannen.|45|K|1|p#🏔️|Sumo-Kniebeugen|Beine weit, Füße nach außen, tief runter, Knie über den Zehen.|50|K|2|m#⚡|Burpees|Hocke, Sprung in den Stütz, Liegestütz, zurück, Strecksprung. Sauber statt schnell.|40|K|3|m#🐻|Bärenlauf|Hände und Füße am Boden, Knie schweben knapp. Vor- und rückwärts krabbeln.|40|K|3|m#🏃|Intervall-Sprint|20 Sekunden Vollgas auf der Stelle, 10 Sekunden locker. Wiederholen.|90|A|3|m#🦘|Seilspringen ohne Seil|Auf den Fußballen, kleine Sprünge, Handgelenke kreisen.|60|A|2|m#⭐|Hampelmänner|Gleichmäßiger Rhythmus, weich landen, ruhig atmen.|60|A|1|m#🥁|Kniehebelauf|Auf der Stelle laufen, Knie bis Hüfthöhe, Arme pumpen.|45|A|2|m#🚶|Power-Walk|Zügig gehen, Arme aktiv mitschwingen, aufrecht bleiben.|180|A|1|m#🕺|Tanz-Marathon|Ein ganzes Lied durchtanzen, ohne Pause.|180|A|2|m#🪂|Skater-Sprünge|Seitlich von Bein zu Bein springen, tiefer Schwerpunkt, Arme pendeln.|45|A|2|m#🥊|Schattenboxen|Leichte Grundstellung, Schlagkombinationen, Beinarbeit nicht vergessen.|60|A|2|m#🧗|Treppenlauf|Treppe hoch laufen, runter gehen. Geländer nutzen!|90|A|3|m#🧊|Unterarmstütz|Ellbogen unter den Schultern, Körper eine Linie, Bauch fest, nicht durchhängen.|45|C|2|p#↔️|Seitstütz|Auf einem Unterarm, Hüfte oben, Körper gerade. Zur Hälfte Seite wechseln.|60|C|2|p#🚲|Fahrrad-Crunches|Rückenlage, Ellbogen zum gegenüberliegenden Knie, langsam und kontrolliert.|45|C|2|m#🦸|Superman|Bauchlage, Arme und Beine heben, Nacken lang, halten.|40|C|1|p#🪲|Dead Bug|Rückenlage, Arme und Beine hoch, gegengleich absenken, Rücken am Boden.|45|C|1|p#🦅|Hollow Hold|Rückenlage, Schultern und gestreckte Beine heben, Bauch maximal anspannen.|30|C|3|p#🦩|Einbeinstand|Ein Bein heben, Blick auf einen Punkt, zur Hälfte wechseln.|60|B|1|p#🧘|Krieger-Pose|Weiter Ausfallschritt, Arme hoch, Hüfte nach vorn, ruhig atmen.|60|B|1|p#🐱|Katze-Kuh|Vierfüßlerstand, Rücken abwechselnd runden und strecken, Atem folgt.|60|B|1|p#🙆|Schulter-Mobilisation|Arme kreisen, Schulterblätter zusammenziehen, Nacken lockern.|60|B|1|p#🤸|Tiefe Hocke|Fersen am Boden, Rücken lang, Ellbogen drücken die Knie auseinander.|60|B|2|p#🧎|Hüftbeuger-Dehnung|Ausfallschritt am Boden, Becken nach vorn schieben, pro Seite 30 Sekunden.|60|B|1|p#🥷|Ninja-Schleichen|Tief in der Hocke lautlos durchs Zimmer. Wer knarrt, ist raus!|40|T|1|p#🦆|Enten-Watscheln|In der Hocke watscheln. Je alberner, desto besser.|40|T|1|m#🧟|Zombie-Kniebeugen|Arme nach vorn, tiefe Kniebeuge, Stöhnen ist Pflicht.|40|T|1|m#🎯|Socken-Treffer|Sockenball in einen Eimer werfen, nach jedem Treffer einen Schritt weiter weg.|60|T|1|p#🤝|Spiegel-Duell|Zu zweit: Eine Person bewegt sich, die andere spiegelt. Nach 30 Sekunden tauschen.|60|T|1|p").split("#").map(function(x){var a=x.split("|");return{e:a[0],n:a[1],d:a[2],s:+a[3],c:a[4],k:+a[5],v:a[6]}});
+function wk(){var d=new Date(),j=new Date(d.getFullYear(),0,1);return d.getFullYear()+"-"+Math.ceil(((d-j)/864e5+j.getDay()+1)/7)}
+function toast(t){var e=$("toast");e.textContent=t;e.style.display="block";setTimeout(function(){e.style.display="none"},2400)}
+function confetti(){var s=["🎉","⭐","💥","🏅","✨","🪙"];for(var i=0;i<26;i++){var p=document.createElement("div");p.className="p";p.textContent=s[i%6];p.style.left=Math.random()*100+"vw";p.style.animationDelay=Math.random()*.6+"s";document.body.appendChild(p);setTimeout(function(q){q.remove()}.bind(null,p),3000)}}
+function ov(h){$("ov").style.display="flex";$("oc").innerHTML=h}
+function cls(){$("ov").style.display="none";if(run){clearInterval(run.tm);window.removeEventListener("devicemotion",mo)}}
+function mo(e){var a=e.accelerationIncludingGravity;if(!a||a.x==null||!run)return;var g=Math.hypot(a.x,a.y,a.z);if(run.last!=null){run.en+=Math.abs(g-run.last);run.ev++}run.last=g}
+function begin(m,cb,x){
+ run={m:m,cb:cb,x:x||{},left:m.s,en:0,ev:0,last:null,n:Math.max(1,Math.floor(m.s/25)),ok:0,at:[]};
+ for(var i=1;i<=run.n;i++)run.at.push(Math.round(i*m.s/(run.n+1)+Math.random()*6-3));
+ ov('<span class="em">'+m.e+'</span><h2>'+m.n+'</h2><p>'+m.d+'</p><div id="clock">'+m.s+'</div><p class="mut">'+(m.v=="m"?"📱 Sensor aktiv – bewege dich wirklich!":"🔔 Achte auf das Signal und tippe!")+'</p><button class="big go" id="png" style="display:none" onclick="pong()">👋 Ich bin da!</button><button class="chip" onclick="cls()">✖ Abbrechen</button>');
+ var go=function(){run.tm=setInterval(tick,1000)};
+ if(m.v=="m"){window.addEventListener("devicemotion",mo);var q=(window.DeviceMotionEvent&&DeviceMotionEvent.requestPermission)?DeviceMotionEvent.requestPermission():null;if(q&&q.then)q.then(go,go);else go()}else go();
+}
+function beep(){try{var a=new (window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();setTimeout(function(){o.stop();a.close()},250)}catch(e){}}
+function tick(){run.left--;$("clock").textContent=Math.max(run.left,0);var e=run.m.s-run.left;
+ if(run.m.v=="p"&&run.at.indexOf(e)>-1){var b=$("png");b.style.display="block";run.pend=1;beep();try{navigator.vibrate(300)}catch(x){}setTimeout(function(){if(run.pend){b.style.display="none";run.pend=0}},5000)}
+ if(run.left<=0)fin()}
+function pong(){run.ok++;run.pend=0;$("png").style.display="none"}
+var RC={"gewöhnlich":"#9aa0a6","selten":"#3a86ff","episch":"#9d4edd","legendär":"#ffb703","mythisch":"#ff2d95"};
+var PETS=("🐣|Küken|gewöhnlich|0#🐶|Hund|gewöhnlich|40#🐱|Katze|gewöhnlich|40#🐰|Hase|gewöhnlich|60#🐹|Hamster|gewöhnlich|60#🐸|Frosch|gewöhnlich|70#🦆|Ente|gewöhnlich|70#🐷|Schwein|gewöhnlich|80#🦊|Fuchs|selten|200#🐼|Panda|selten|220#🐨|Koala|selten|240#🦁|Löwe|selten|260#🐯|Tiger|selten|260#🐧|Pinguin|selten|280#🦉|Eule|selten|300#🦦|Otter|selten|300#🦄|Einhorn|episch|600#🦖|Rex|episch|650#🐺|Wolf|episch|700#🦈|Hai|episch|750#🐙|Krake|episch|800#🦜|Papagei|episch|850#🐊|Krokodil|episch|900#🐉|Drache|legendär|1800#🦅|Adler-Phönix|legendär|2000#🦚|Pfau|legendär|2000#🐘|Titan-Elefant|legendär|2200#🦬|Bison-König|legendär|2400#👾|Alien|mythisch|5000#🤖|Robo|mythisch|5500#👻|Geist|mythisch|6000").split("#").map(function(x,i){var a=x.split("|");return["p"+i,a[0],a[1],a[2],+a[3]]});
+var HATS=("🎀|Schleife|40#🧢|Cap|50#🕶️|Sonnenbrille|60#🎩|Zylinder|80#⛑️|Helm|90#🎧|Kopfhörer|120#👓|Brille|120#🌸|Blume|150#🍕|Pizza|200#🎓|Doktorhut|250#🪖|Soldatenhelm|300#🪄|Zauberstab|350#🥇|Medaille|400#⭐|Stern|450#🔥|Flamme|500#❄️|Eiskristall|550#🌈|Regenbogen|600#🛡️|Schild|700#⚔️|Schwert|750#🪽|Flügel|900#😇|Heiligenschein|1000#👑|Krone|1200#💎|Diamant|1500#🌙|Mond|1800#☀️|Sonne|2000#⚡|Blitz|2500#🚀|Raketenrucksack|3000#🌌|Galaxie|4000").split("#").map(function(x,i){var a=x.split("|");return["h"+i,a[0],a[1],+a[2]]});
+var BOSSES=[["🐲","Schlafmützen-Drache",2,"KKC",90],["🧟","Zombie-König",3,"ACK",120],["🧊","Frostriese",4,"AAA",170],["🕷️","Spinnenkönigin",6,"CCBC",220],["🌋","Vulkan-Titan",8,"KKKA",300],["🌑","Schattenkönig",10,"KACB",380],["🤖","Ultra-Roboter",13,"AKACK",520],["👁️","Das Ur-Böse",16,"KACKAC",800]];
+var DM=[];M.forEach(function(m,i){if(m.v=="m"&&m.k>=2)DM.push(i)});
+var myId,me,CL=[],DU=null,dayKey=new Date().toISOString().slice(0,10),wu=null,tab="q",cat="*",shop="p",cur=null,run=null,bs=null;
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return"&#"+c.charCodeAt(0)+";"})}
+function hs(s){var h=7;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h}
+function lv(p){return Math.floor(Math.sqrt(p.xp/40))+1}
+function pf(id){return PETS.filter(function(x){return x[0]==id})[0]||PETS[0]}
+function dft(o){var d={n:"Spieler",e:"🧒",xp:0,wx:0,wk:wk(),coins:20,st:0,last:"",mc:0,tr:0,pet:"p0",own:["p0"],hats:[],hat:"",boost:0,bd:{},dd:"",dw:""};for(var k in d)if(o[k]==null)o[k]=d[k];return o}
+function draw(){if(!me)return;if(!isM(myId)){gateUI();return}$("hero").style.display="flex";var p=me,l=lv(p),lo=(l-1)*(l-1)*40,hi=l*l*40,ht=HATS.filter(function(x){return x[0]==p.hat})[0],pt=pf(p.pet);
+ $("inbox").innerHTML=joinHTML()+CL.map(function(c){return '<div class="card" style="border-color:var(--b)">🤝 <b>'+esc(c.fn)+'</b> möchte, dass du „'+esc(c.m)+'“ bestätigst.<br><button class="chip" onclick="ans(\''+c.id+'\',1)">✅ Gesehen</button> <button class="chip" onclick="ans(\''+c.id+'\',0)">❌ Nein</button></div>'}).join("");
+ $("hero").innerHTML='<div class="pw"><div id="pet" onclick="toast(\'Mehr Bewegung, bitte! 🪙\')" style="font-size:'+(48+Math.min(l,12)*3)+'px;filter:drop-shadow(0 0 8px '+RC[pt[3]]+')">'+pt[1]+'</div><div class="hat">'+(ht?ht[1]:"")+'</div></div><div style="flex:1"><b>'+esc(p.e)+' '+esc(p.n)+'</b> · Level '+l+'<div class="bar"><div style="width:'+(p.xp-lo)/(hi-lo)*100+'%"></div></div><div class="stats"><span>🪙 <b>'+p.coins+'</b></span><span>🔥 <b>'+p.st+'</b></span><span>🏆 <b>'+p.tr+'</b></span>'+(p.boost?'<span>🧪 ×2</span>':'')+'</div></div>';
+ $("nav").innerHTML=[["q","🗺️","Quests"],["b","⚔️","Kämpfe"],["s","🛍️","Shop"],["f","👨‍👩‍👧","Familie"]].map(function(t){return '<button class="'+(tab==t[0]?'on':'')+'" onclick="tab=\''+t[0]+'\';draw()"><span>'+t[1]+'</span>'+t[2]+'</button>'}).join("");
+ ({q:vq,b:vb,s:vs,f:vf})[tab]($("view"))}
+function vq(v){var cs=[["*","🌈 Alles"]].concat(Object.keys(CAT).map(function(k){return[k,CAT[k]]}));
+ v.innerHTML='<div class="chips">'+cs.map(function(c){return '<button class="chip'+(cat==c[0]?' on':'')+'" onclick="cat=\''+c[0]+'\';draw()">'+c[1]+'</button>'}).join("")+'</div><button class="big" onclick="roll()">🎲 Quest würfeln</button><div class="card" id="mis" style="margin-top:14px;display:none"></div>';if(cur)showM()}
+function roll(){var pool=M.filter(function(m){return cat=="*"||m.c==cat}),n=0,t=setInterval(function(){cur=pool[Math.floor(Math.random()*pool.length)];showM(n<9);if(++n>9)clearInterval(t)},80)}
+function showM(sp){var b=$("mis");if(!b||!cur)return;b.style.display="block";b.innerHTML='<span class="em">'+cur.e+'</span><h2>'+cur.n+'</h2>'+(sp?'':'<p>'+cur.d+'</p><p><b>'+cur.s+' Sek.</b> · '+"⭐".repeat(cur.k)+' · '+CAT[cur.c]+'</p><p class="mut">'+VL[cur.v]+'</p><button class="big go" onclick="startQ()">▶ Quest starten</button>')}
+function startQ(){var m=cur;begin(m,function(mu,w){gain(m.s/3*m.k*mu,m.k*5*mu,w?"Zeuge: "+w.n:"")})}
+function gain(xp,c,note,nb){var p=me,l=lv(p);if(p.wk!==wk()){p.wk=wk();p.wx=0}var b=(p.boost&&!nb)?2:1;if(!nb)p.boost=0;xp=Math.round(xp*b);c=Math.round(c*b);
+ var td=new Date().toDateString(),y=new Date(Date.now()-864e5).toDateString();if(p.last!==td){p.st=p.last===y?p.st+1:1;p.last=td}
+ p.xp+=xp;p.wx+=xp;p.coins+=c;p.mc++;sv();confetti();toast("+"+xp+" XP · +"+c+" 🪙 "+(note||""));if(lv(p)>l)setTimeout(function(){toast("🎊 Level-Up! Level "+lv(p))},2500);draw()}
+function fin(){clearInterval(run.tm);window.removeEventListener("devicemotion",mo);var m=run.m,ok,msg="Ein Kontroll-Ping wurde verpasst.";
+ if(m.v=="m"){ok=run.ev<5?null:run.en>=m.s*6;msg=ok===null?"Kein Bewegungs-Sensor erkannt.":"Zu wenig Bewegung gemessen."}else ok=run.ok>=run.n;
+ if(run.x.duel){if(ok)vdone(1,0);else ov('<h2>😅 Nicht gewertet</h2><p>'+msg+'</p><button class="chip" onclick="cls()">OK</button>');return}
+ if(ok&&!(run.x.final&&all().length>1))vdone(1,0);else if(ok)wit("Boss-Finale: Eine andere Person muss bestätigen.",1);else wit(msg,run.x.boss)}
+function vdone(mu,w){var cb=run.cb;cls();cb(mu,w)}
+function wit(msg,nh){run.nh=nh;var o=all().filter(function(x){return x.id!=myId}),h='<h2>🤝 Zeugen-Check</h2><p>'+msg+'</p>';
+ if(o.length)h+='<select id="wsel">'+o.map(function(p){return '<option value="'+p.id+'">'+esc(p.e)+' '+esc(p.n)+'</option>'}).join("")+'</select><button class="big go" onclick="ask()">📨 Anfrage senden</button><p class="mut">Die Anfrage erscheint in wenigen Sekunden auf dem Gerät der Person. Sie bekommt für die Bestätigung 🪙.</p>';
+ else h+='<p class="mut">Es ist noch niemand sonst in der Familie dabei.</p>';
+ if(!nh)h+='<button class="chip" onclick="vdone(.5,0)">🤞 Ehrenwort (halber Lohn)</button> ';
+ ov(h+'<button class="chip" onclick="cls()">Abbrechen</button>')}
+function duelHTML(){var T='<div class="card"><b>⚔️ Duell des Tages</b>';
+ if(all().length<2)return T+'<p class="mut">Sobald mindestens zwei Personen dabei sind, wird jeden Tag ein Duell ausgelost.</p></div>';
+ if(!DU)return T+'<p class="mut">Wird ausgelost …</p></div>';
+ var a=plOf(DU.a),b=plOf(DU.b),m=M[DU.mi],ia=DU.a==myId,mine=ia||DU.b==myId,s=ia?DU.sa:DU.sb;
+ var h=T+'<div class="vs"><div>'+esc(a.e)+'<br><small>'+esc(a.n)+'</small><br><b>'+(DU.sa==null?"?":DU.sa)+'</b></div><span>VS</span><div>'+esc(b.e)+'<br><small>'+esc(b.n)+'</small><br><b>'+(DU.sb==null?"?":DU.sb)+'</b></div></div><p style="text-align:center">'+m.e+' <b>'+m.n+'</b> · '+m.s+' Sek.<br><span class="mut">Der höhere Power-Score gewinnt. Beide bekommen 30 🪙 + 40 XP, die Siegerin oder der Sieger zusätzlich 40 🪙 + 40 XP.</span></p>';
+ if(mine&&s==null)h+='<button class="big" onclick="startD()">⚔️ Duell starten</button>';
+ else h+='<p class="mut" style="text-align:center">'+(mine?"Dein Score steht. Warte auf den Gegner …":"Heute nicht ausgelost – morgen vielleicht du!")+'</p>';
+ return h+'</div>'}
+function checkDuel(){if(!DU||!me)return;var ia=DU.a==myId;if(!ia&&DU.b!=myId)return;var s=ia?DU.sa:DU.sb,o=ia?DU.sb:DU.sa;
+ if(s!=null&&me.dd!=dayKey){me.dd=dayKey;gain(40,30,"Duell-Teilnahme",1)}
+ if(s!=null&&o!=null&&me.dw!=dayKey){me.dw=dayKey;if(s>=o)setTimeout(function(){gain(40,40,s>o?"🏆 Duell gewonnen!":"Unentschieden – beide siegen!",1)},2600);else toast("Duell verloren – nächstes Mal!");sv()}}
+function vb(v){var h=duelHTML()+'<h3>👹 Bosse</h3>';
+ BOSSES.forEach(function(B,i){var lock=lv(me)<B[2],done=me.bd[i]==dayKey,off=lock||done;
+  h+='<div class="card boss"><span class="e">'+B[0]+'</span><div style="flex:1"><b>'+B[1]+'</b><p class="mut">'+B[3].length+' Runden '+B[3].split("").map(function(c){return CAT[c].split(" ")[0]}).join("")+' · '+B[4]+' 🪙 + '+B[4]+' XP</p></div><button class="big'+(off?'':' go')+'" '+(off?'disabled style="opacity:.5"':'onclick="startB('+i+')"')+'>'+(lock?'🔒 Lv '+B[2]:done?'✔ heute':'⚔️')+'</button></div>'});
+ v.innerHTML=h+'<p class="mut">Bosse werden streng geprüft: Sensor oder Ping in jeder Runde, im Finale zusätzlich eine Zeugin oder ein Zeuge.</p>'}
+function startB(i){bs={i:i,r:0};nextR()}
+function nextR(){var B=BOSSES[bs.i],c=B[3][bs.r],pool=M.filter(function(m){return m.c==c&&m.k>=2});if(!pool.length)pool=M.filter(function(m){return m.c==c});var m=pool[Math.floor(Math.random()*pool.length)],n=B[3].length;
+ ov('<span class="em">'+B[0]+'</span><div class="bar"><div style="background:var(--a);width:'+(100-bs.r/n*100)+'%"></div></div><h3>Runde '+(bs.r+1)+' von '+n+'</h3><b>'+m.e+' '+m.n+'</b><p>'+m.d+'</p><p class="mut"><b>'+m.s+' Sek.</b> · '+VL[m.v]+'</p><button class="big" id="bgo">⚔️ Angreifen!</button><button class="chip" onclick="cls()">Flucht</button>');
+ $("bgo").onclick=function(){cls();begin(m,function(){bs.r++;if(bs.r>=n)bwin();else nextR()},{boss:1,final:bs.r==n-1})}}
+function bwin(){var B=BOSSES[bs.i];me.tr++;me.bd[bs.i]=dayKey;gain(B[4],B[4],"Boss besiegt!");ov('<span class="em">🏆</span><h2>'+B[1]+' besiegt!</h2><p>+'+B[4]+' 🪙 und +'+B[4]+' XP</p><button class="chip" onclick="cls()">Weiter</button>')}
+function item(e,n,col,t,id,pr,own,act){return '<div class="item" style="border-color:'+col+'"><span class="em">'+e+'</span><b>'+n+'</b><br><button class="chip" onclick="buy(\''+t+'\',\''+id+'\','+pr+')">'+(own?(act?"✔ aktiv":"Wählen"):pr+" 🪙")+'</button></div>'}
+function vs(v){var p=me,h='<div class="chips">'+[["p","🐾 Haustiere"],["h","🎩 Accessoires"],["x","🧪 Tränke"]].map(function(c){return '<button class="chip'+(shop==c[0]?' on':'')+'" onclick="shop=\''+c[0]+'\';draw()">'+c[1]+'</button>'}).join("")+'</div>';
+ if(shop=="x")h+='<div class="card"><b>🧪 XP-Doppel-Trank · 30 🪙</b><p class="mut">Verdoppelt XP und Münzen deiner nächsten Quest.</p><button class="big go" onclick="buy(\'x\',\'\',30)">Kaufen</button></div>';
+ else if(shop=="p"){h+='<p class="mut">Gesammelt: '+p.own.length+' / '+PETS.length+'</p>';Object.keys(RC).forEach(function(r){h+='<h3 style="color:'+RC[r]+'">'+r+'</h3><div class="grid">'+PETS.filter(function(x){return x[3]==r}).map(function(x){return item(x[1],x[2],RC[r],'p',x[0],x[4],p.own.indexOf(x[0])>-1,p.pet==x[0])}).join("")+'</div>'})}
+ else h+='<p class="mut">Gesammelt: '+p.hats.length+' / '+HATS.length+'</p><div class="grid">'+HATS.map(function(x){return item(x[1],x[2],"var(--line)",'h',x[0],x[3],p.hats.indexOf(x[0])>-1,p.hat==x[0])}).join("")+'</div>';
+ v.innerHTML=h}
+function buy(t,id,pr){var p=me;
+ if(t=="x"){if(p.coins<pr)return toast("Zu wenig Münzen");p.coins-=pr;p.boost=1;toast("🧪 Trank aktiv!")}
+ else{var L=t=="p"?p.own:p.hats;if(L.indexOf(id)<0){if(p.coins<pr)return toast("Zu wenig Münzen – weiter sammeln!");p.coins-=pr;L.push(id);confetti()}if(t=="p")p.pet=id;else p.hat=p.hat==id?"":id}
+ sv();draw()}
+
+var CFG=null,BR="main",SH={},LS={},WT={},TXT={},ET="",FAM=null,PM={},CM={},SC={},SY=0,ob=0,mf=0,mkd=0,busy=0,fast=0,wuId=null,Q=Promise.resolve(),offT=0,ext=0;
+var EM=["🧒","👧","👦","👩","👨","🧓","🦸","🧙"];
+function num(x,mx){x=+x;return isFinite(x)?Math.max(0,Math.min(mx,Math.floor(x))):0}
+function rnd(){var a=new Uint8Array(6);crypto.getRandomValues(a);return Array.prototype.map.call(a,function(x){return("0"+x.toString(16)).slice(-2)}).join("")}
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function b64(s){return btoa(unescape(encodeURIComponent(s)))}
+function enc(o){return b64(JSON.stringify(o)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function dec(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return JSON.parse(decodeURIComponent(escape(atob(s))))}
+function okCfg(c){return !!c&&typeof c.o=="string"&&typeof c.r=="string"&&typeof c.t=="string"&&/^[\w.-]{1,60}$/.test(c.o)&&/^[\w.-]{1,100}$/.test(c.r)&&/^github_pat_\w{10,300}$/.test(c.t)}
+function pp(id){return"d/players/"+id+".json"}
+function cp(id){return"d/claims/"+id+".json"}
+function gh(m,p,body,hdr){var h={"Authorization":"Bearer "+CFG.t,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};if(body)h["Content-Type"]="application/json";for(var k in hdr)h[k]=hdr[k];return fetch("https://api.github.com/repos/"+CFG.o+"/"+CFG.r+p,{method:m,headers:h,body:body?JSON.stringify(body):undefined,cache:"no-store",referrerPolicy:"no-referrer"})}
+async function wr(p,obj,del,once,keep){for(var i=0;i<3;i++){var b={message:"d",branch:BR};if(!del)b.content=b64(JSON.stringify(obj));if(SH[p])b.sha=SH[p];
+ var r=await gh(del?"DELETE":"PUT","/contents/"+p,b);
+ if(r.ok){var j=await r.json();WT[p]=Date.now();if(del){delete SH[p];delete TXT[p];delete LS[p]}else{SH[p]=LS[p]=j.content.sha;TXT[p]=obj}return 1}
+ if(r.status!=409&&r.status!=422)return 0;if(once&&r.status==422)return 0;
+ var q=await gh("GET","/contents/"+p+"?ref="+BR);if(q.ok){var ns=(await q.json()).sha;if(keep&&SH[p]&&ns!=SH[p])return -1;SH[p]=ns}else if(q.status==404){delete SH[p];if(del)return 1}else return 0}return 0}
+async function sync(){if(busy)return;busy=1;try{var h={};if(ET)h["If-None-Match"]=ET;
+ var r=await gh("GET","/git/trees/"+encodeURIComponent(BR)+"?recursive=1",0,h),chg=0;
+ if(r.status==200){ET=r.headers.get("ETag")||"";var j=await r.json(),m={};j.tree.forEach(function(x){if(x.type=="blob"&&x.path.indexOf("d/")==0)m[x.path]=x.sha});
+  var rec=function(p){return WT[p]&&Date.now()-WT[p]<20000};
+  await Promise.all(Object.keys(m).filter(function(p){return m[p]!==LS[p]&&!rec(p)}).map(async function(p){var q=await gh("GET","/contents/"+p+"?ref="+BR,0,{"Accept":"application/vnd.github.raw+json"});if(!q.ok)return;try{TXT[p]=JSON.parse(await q.text());LS[p]=SH[p]=m[p];chg=1;if(p==pp(myId))ext=1}catch(e){}}));
+  Object.keys(TXT).forEach(function(p){if(!(p in m)&&!rec(p)){delete TXT[p];delete LS[p];delete SH[p];chg=1}})}
+ else if(r.status!=304)throw r.status;
+ offT=0;if(!SY){SY=1;chg=1}if(chg)refresh()}catch(e){if(!offT){offT=1;toast("Keine Verbindung zu GitHub …")}}busy=0}
+function loop(){sync().then(function(){setTimeout(loop,document.hidden?30000:(fast?3000:8000))})}
+document.addEventListener("visibilitychange",function(){if(!document.hidden)sync()});
+function cleanP(o,id){var ok=function(a,L){return(Array.isArray(a)?a:[]).filter(function(x){return L.some(function(y){return y[0]==x})})};
+ var r={id:id,n:String(o.n||"Spieler").slice(0,12),e:EM.indexOf(o.e)>-1?o.e:"🧒",xp:num(o.xp,1e7),wx:num(o.wx,1e6),wk:String(o.wk||"").slice(0,8),coins:num(o.coins,1e7),st:num(o.st,9999),last:String(o.last||"").slice(0,20),mc:num(o.mc,1e6),tr:num(o.tr,1e5),pet:pf(o.pet)[0],own:ok(o.own,PETS),hats:ok(o.hats,HATS),hat:HATS.some(function(h){return h[0]==o.hat})?o.hat:"",boost:o.boost?1:0,bd:(o.bd&&typeof o.bd=="object")?o.bd:{},dd:String(o.dd||"").slice(0,10),dw:String(o.dw||"").slice(0,10),pk:/^[0-9a-f]{64}$/.test(o.pk)?o.pk:""};
+ if(r.own.indexOf("p0")<0)r.own.push("p0");return r}
+function isM(id){return !!FAM&&FAM.ban.indexOf(id)<0&&(id==FAM.admin||FAM.ok.indexOf(id)>-1)}
+function derive(){dayKey=new Date().toISOString().slice(0,10);var f=TXT["d/family.json"],D=null,a;FAM=null;
+ if(f&&typeof f.admin=="string"&&/^[0-9a-f]{12}$/.test(f.admin)){var ids=function(x){return(Array.isArray(x)?x:[]).filter(function(y){return/^[0-9a-f]{12}$/.test(y)})};FAM={admin:f.admin,ok:ids(f.ok),ban:ids(f.ban)}}
+ PM={};CM={};SC={};
+ Object.keys(TXT).forEach(function(p){var o=TXT[p];if(!o||typeof o!="object")return;
+  if(a=p.match(/^d\/players\/([0-9a-f]{12})\.json$/))PM[a[1]]=cleanP(dft(Object.assign({},o)),a[1]);
+  else if(a=p.match(/^d\/claims\/([0-9a-f]{12})\.json$/))CM[a[1]]=o;
+  else if(a=p.match(/^d\/duels\/(\d{4}-\d{2}-\d{2})-([0-9a-f]{12})\.json$/)){if(a[1]==dayKey)SC[a[2]]=num(o.s,999)}
+  else if(p=="d/duels/"+dayKey+".json")D=o});
+ DU=null;if(D&&isM(D.a)&&isM(D.b)&&D.a!=D.b&&DM.indexOf(D.mi)>-1)DU={a:D.a,b:D.b,mi:D.mi,sa:SC[D.a]==null?null:SC[D.a],sb:SC[D.b]==null?null:SC[D.b]};
+ CL=[];Object.keys(CM).forEach(function(id){var c=CM[id];if(c&&c.to==myId&&c.st=="p"&&Date.now()-(+c.t||0)<36e5&&isM(c.from))CL.push({id:id,fn:String(c.fn||"").slice(0,12),m:String(c.m||"").slice(0,40)})})}
+function refresh(){derive();if(ext&&PM[myId]){me=PM[myId];ext=0}if(!me&&PM[myId])me=PM[myId];
+ if(!me){if(SY&&!ob){ob=1;onboard()}return}
+ if(!FAM){mkFam();gateUI();return}
+ chkWait();ensureDuel();checkDuel();var e=document.activeElement;if(e&&(e.tagName=="INPUT"||e.tagName=="SELECT"))return;draw()}
+function sv(){Q=Q.then(function(){return wr(pp(myId),me,0,0,1)}).then(function(ok){if(ok==-1){ET="";LS[pp(myId)]="";WT[pp(myId)]=0;ext=1;toast("Spielstand von anderem Gerät geladen – bitte noch einmal");return sync()}if(!ok)toast("Speichern fehlgeschlagen")}).catch(function(){toast("Speichern fehlgeschlagen")})}
+function all(){var A=[];Object.keys(PM).forEach(function(id){if(id!=myId&&isM(id))A.push(PM[id])});if(me){var m=Object.assign({},me);m.id=myId;A.push(m)}return A}
+function plOf(id){return all().filter(function(x){return x.id==id})[0]||{n:"?",e:"❔"}}
+function mkFam(){if(mf||!me)return;mf=1;wr("d/family.json",{admin:myId,ok:[],ban:[]},0,1).then(function(){mf=0;sync()})}
+function gateUI(){$("inbox").innerHTML="";$("hero").style.display="none";$("nav").innerHTML="";var t;
+ if(!FAM)t='<b>⏳ Verbinde …</b><p class="mut">Die Familie wird eingerichtet.</p>';
+ else if(FAM.ban.indexOf(myId)>-1)t='<b>🚫 Zugang beendet</b><p class="mut">Du wurdest aus der Familie entfernt.</p>';
+ else t='<b>⏳ Warte auf Freigabe</b><p class="mut">Die Admin-Person muss dich zuerst aufnehmen. Danach geht es automatisch los.</p>';
+ $("view").innerHTML='<div class="card">'+t+'<button class="chip" onclick="out()">🚪 Gerät abmelden</button></div>'}
+function joinHTML(){if(!FAM||myId!=FAM.admin)return"";var h="";Object.keys(PM).forEach(function(id){if(id==myId||isM(id)||FAM.ban.indexOf(id)>-1)return;h+='<div class="card" style="border-color:var(--b)">👋 <b>'+esc(PM[id].e)+' '+esc(PM[id].n)+'</b> möchte der Familie beitreten.<br><button class="chip" onclick="okM(\''+id+'\')">✅ Aufnehmen</button> <button class="chip" onclick="kick(\''+id+'\')">❌ Ablehnen</button></div>'});return h}
+function okM(id){FAM.ok.push(id);saveFam()}
+function kick(id){if(!confirm("Wirklich entfernen? Die Person kann nur nach erneuter Aufnahme wieder mitspielen."))return;FAM.ok=FAM.ok.filter(function(x){return x!=id});if(FAM.ban.indexOf(id)<0)FAM.ban.push(id);saveFam();wr(pp(id),0,1)}
+function saveFam(){wr("d/family.json",FAM).then(function(){derive();draw()})}
+function inv(){var l=location.origin+location.pathname+"#"+enc(CFG);if(navigator.clipboard)navigator.clipboard.writeText(l).then(function(){toast("Link kopiert – nur privat teilen")},function(){prompt("Link:",l)});else prompt("Link:",l)}
+function out(){try{localStorage.removeItem("wr_cfg")}catch(e){}location.reload()}
+function chkWait(){if(!wuId)return;var c=CM[wuId];if(!c)return;var id=wuId,w=plOf(c.to);if(c.st=="ok"){wuId=null;fast=0;wr(cp(id),0,1);vdone(1,w)}else if(c.st=="no"){wuId=null;fast=0;wr(cp(id),0,1);wit("Abgelehnt.",run.nh)}}
+function ask(){var to=$("wsel").value,w=plOf(to),id=rnd();wr(cp(id),{from:myId,fn:me.n,to:to,m:run.m.n,st:"p",t:Date.now()}).then(function(ok){if(!ok)return toast("Anfrage fehlgeschlagen");wuId=id;fast=1;ov('<h2>⏳ Warte auf '+esc(w.n)+' …</h2><p class="mut">Die Anfrage erscheint in wenigen Sekunden auf dem Gerät von '+esc(w.n)+'.</p><button class="chip" onclick="wuId=null;fast=0;cls()">Abbrechen</button>')})}
+function ans(id,ok){var c=CM[id];if(!c)return;var o=Object.assign({},c);o.st=ok?"ok":"no";wr(cp(id),o).then(sync);if(ok){me.coins+=5;me.xp+=10;me.wx+=10;sv();toast("+5 🪙 fürs Bestätigen")}CL=CL.filter(function(x){return x.id!=id});draw()}
+function startD(){var m=M[DU.mi];begin(m,function(){var sc=Math.round(run.en/m.s);wr("d/duels/"+dayKey+"-"+myId+".json",{s:sc}).then(function(){derive();checkDuel();draw()})},{duel:1})}
+function ensureDuel(){if(DU||mkd)return;var ids=all().map(function(x){return x.id}).sort(),n=ids.length;if(n<2||TXT["d/duels/"+dayKey+".json"])return;mkd=1;var a=hs(dayKey)%n,b=(a+1+hs(dayKey+"b")%(n-1))%n;wr("d/duels/"+dayKey+".json",{a:ids[a],b:ids[b],mi:DM[hs(dayKey+"m")%DM.length]},0,1).then(function(){mkd=0;sync()})}
+function adm(){var pend=[],ms=[],row=function(id,btn){return '<div class="row"><span>'+esc(PM[id].e)+' '+esc(PM[id].n)+'</span><span>'+btn+'</span></div>'};
+ Object.keys(PM).forEach(function(id){if(id==myId||FAM.ban.indexOf(id)>-1)return;(isM(id)?ms:pend).push(id)});
+ return '<div class="card"><b>👑 Admin</b>'+(pend.length?'<p class="mut">Wartet auf Aufnahme:</p>'+pend.map(function(id){return row(id,'<button class="chip" onclick="okM(\''+id+'\')">✅</button> <button class="chip" onclick="kick(\''+id+'\')">❌</button>')}).join(""):'')+(ms.length?'<p class="mut">Mitglieder:</p>'+ms.map(function(id){return row(id,'<button class="chip" onclick="kick(\''+id+'\')">🚪 Entfernen</button>')}).join(""):'')+'<button class="big go" onclick="inv()">🔗 Einladungslink kopieren</button><p class="mut">Der Link enthält den Zugang zur Familie – nur privat teilen. Neue Personen müssen von dir aufgenommen werden.</p></div>'}
+function vf(v){var A=all(),w=wk(),sc=function(p){return p.wk==w?p.wx:0},s=A.slice().sort(function(a,b){return sc(b)-sc(a)}),tot=0,md=["🥇","🥈","🥉"],g=200*s.length;s.forEach(function(p){tot+=sc(p)});
+ v.innerHTML='<div class="card"><b>👨‍👩‍👧 Familien-Ziel dieser Woche</b><div class="bar"><div style="width:'+Math.min(100,tot/g*100)+'%"></div></div>'+tot+' / '+g+' XP '+(tot>=g?'🎉 Ziel erreicht!':'')+'</div><div class="card"><b>🏆 Rangliste (diese Woche)</b>'+s.map(function(p,i){return '<div class="row"><span>'+(md[i]||(i+1)+".")+' '+esc(p.e)+' '+esc(p.n)+(p.id==myId?' (du)':'')+'</span><span><b>'+sc(p)+' XP</b> · 🔥'+p.st+' · 🏆'+p.tr+' · Lv '+lv(p)+'</span></div>'}).join("")+'</div>'+(myId==FAM.admin?adm():'')+'<div class="card"><b>✏️ Dein Profil</b><br><br><input id="nn" value="'+esc(me.n)+'" maxlength="12"> <select id="ne">'+EM.map(function(e){return '<option'+(e==me.e?' selected':'')+'>'+e+'</option>'}).join("")+'</select><input id="np" type="tel" inputmode="numeric" maxlength="4" placeholder="Neue PIN" style="width:120px"> <button class="big go" onclick="saveP()">Speichern</button><p class="mut">'+(me.pk?'Mit Name und PIN meldest du dich auch auf anderen Geräten an.':'⚠️ Noch keine PIN gesetzt – ohne PIN ist keine Anmeldung auf einem zweiten Gerät möglich.')+'</p><br><br><button class="chip" onclick="out()">🚪 Dieses Gerät abmelden</button></div>'}
+async function hp(id,pin){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("wr:"+id+":"+pin));return Array.prototype.map.call(new Uint8Array(b),function(x){return("0"+x.toString(16)).slice(-2)}).join("")}
+async function saveP(){me.n=$("nn").value.trim().slice(0,12)||me.n;me.e=$("ne").value;var pn=$("np").value;if(pn){if(!/^\d{4}$/.test(pn))return toast("PIN: genau 4 Ziffern");me.pk=await hp(myId,pn)}sv();draw();if(pn)toast("PIN gespeichert")}
+function onboard(lg){var pin='<input id="op" type="tel" inputmode="numeric" maxlength="4" placeholder="PIN (4 Ziffern)" style="width:150px">';
+ ov(lg?'<span class="em">📲</span><h2>Mit Profil anmelden</h2><p class="mut">Gib Namen und PIN deines bestehenden Profils ein.</p><input id="on" maxlength="12" placeholder="Name"> '+pin+'<button class="big go" id="ogo">Anmelden</button><button class="chip" onclick="onboard(0)">← Ich bin neu hier</button>':'<span class="em">👋</span><h2>Willkommen im Rudel!</h2><p>Wie heißt du, und wer bist du?</p><input id="on" maxlength="12" placeholder="Name"> <select id="oe">'+EM.map(function(e){return '<option>'+e+'</option>'}).join("")+'</select><br><br>'+pin+'<p class="mut">Mit Name und PIN meldest du dich später auch auf anderen Geräten an.</p><button class="big go" id="ogo">Los geht’s!</button><button class="chip" onclick="onboard(1)">📲 Ich habe schon ein Profil</button>');
+ $("ogo").onclick=async function(){var n=$("on").value.trim(),pn=$("op").value;if(!n||!/^\d{4}$/.test(pn))return toast("Name und 4-stellige PIN nötig");
+  if(lg){var f=Object.keys(PM).filter(function(id){return isM(id)&&PM[id].n.toLowerCase()==n.toLowerCase()&&PM[id].pk});for(var i=0;i<f.length;i++)if(await hp(f[i],pn)==PM[f[i]].pk){myId=f[i];lsSet("wr_id",myId);me=PM[myId];cls();refresh();return}toast("Name oder PIN falsch – oder das Profil hat noch keine PIN");return}
+  me=cleanP(dft({n:n.slice(0,12),e:$("oe").value}),myId);me.pk=await hp(myId,pn);sv();cls();refresh()}}
+function msgUI(t,x){$("inbox").innerHTML="";$("hero").style.display="none";$("nav").innerHTML="";$("view").innerHTML='<div class="card">'+t+(x||'')+'</div>'}
+function setupUI(){msgUI('<b>🔧 Familie einrichten</b><p class="mut">Hast du einen Einladungslink bekommen? Dann öffne einfach den Link. Als erste Person trägst du hier die Daten deines privaten Daten-Repositorys ein.</p><input id="su" placeholder="GitHub-Name"> <input id="sr" placeholder="Daten-Repository"><br><br><input id="sk" type="password" placeholder="Token (github_pat_…)" style="width:100%"><button class="big go" onclick="setup()">Verbinden</button><p class="mut" id="se"></p>')}
+function setup(){var c={o:$("su").value.trim(),r:$("sr").value.trim(),t:$("sk").value.trim()};if(!okCfg(c)){$("se").textContent="Bitte alle drei Felder ausfüllen. Das Token muss mit github_pat_ beginnen (fein abgestuftes Token).";return}lsSet("wr_cfg",JSON.stringify(c));location.reload()}
+(async function(){
+ var h=location.hash.slice(1);if(h){try{var c=dec(h);if(okCfg(c))lsSet("wr_cfg",JSON.stringify({o:c.o,r:c.r,t:c.t}))}catch(e){}history.replaceState(null,"",location.pathname+location.search)}
+ try{CFG=JSON.parse(lsGet("wr_cfg"))}catch(e){CFG=null}
+ if(!okCfg(CFG)){CFG=null;return setupUI()}
+ myId=lsGet("wr_id");if(!/^[0-9a-f]{12}$/.test(myId||"")){myId=rnd();lsSet("wr_id",myId)}
+ try{var r=await gh("GET","");if(!r.ok)throw r.status;BR=(await r.json()).default_branch||"main"}catch(e){return msgUI('<b>Verbindung fehlgeschlagen ('+esc(e)+')</b><p class="mut">Prüfe Repository-Name, Token und Ablaufdatum.</p><button class="chip" onclick="out()">🚪 Zugang zurücksetzen</button>')}
+ loop()})();
+</script>
+</body>
+</html>
